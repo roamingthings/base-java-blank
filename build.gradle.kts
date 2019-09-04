@@ -1,8 +1,8 @@
 import org.gradle.api.JavaVersion.VERSION_1_8
 
-extra["assertjVersion"] = "3.12.0"
-extra["junitVersion"] = "5.4.0"
-extra["mockitoVersion"] = "2.24.5"
+extra["assertjVersion"] = "3.13.2"
+extra["junitVersion"] = "5.5.1"
+extra["mockitoVersion"] = "3.0.0"
 
 buildscript {
     repositories {
@@ -21,15 +21,11 @@ repositories {
     mavenCentral()
 }
 
+val junitVersion: String by extra
+val mockitoVersion: String by extra
+val assertjVersion: String by extra
 dependencies {
-    val junitVersion: String by extra
-    val mockitoVersion: String by extra
-    val assertjVersion: String by extra
-
-    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
-
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:$junitVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
 
     testCompile("org.assertj:assertj-core:$assertjVersion")
     testCompile("org.mockito:mockito-core:$mockitoVersion")
@@ -38,4 +34,11 @@ dependencies {
 
 configure<JavaPluginConvention> {
     sourceCompatibility = VERSION_1_8
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
