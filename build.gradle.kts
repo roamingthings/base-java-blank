@@ -3,6 +3,7 @@ import org.gradle.api.JavaVersion.VERSION_1_8
 extra["assertjVersion"] = "3.13.2"
 extra["junitVersion"] = "5.5.1"
 extra["mockitoVersion"] = "3.0.0"
+extra["lombokVersion"] = "1.18.8"
 
 buildscript {
     repositories {
@@ -24,7 +25,11 @@ repositories {
 val junitVersion: String by extra
 val mockitoVersion: String by extra
 val assertjVersion: String by extra
+val lombokVersion: String by extra
 dependencies {
+    compileOnly("org.projectlombok:lombok:$lombokVersion")
+    annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
 
     testCompile("org.assertj:assertj-core:$assertjVersion")
